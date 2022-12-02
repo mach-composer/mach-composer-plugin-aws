@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"embed"
@@ -13,7 +13,7 @@ var templates embed.FS
 
 func renderResources(site, env string, cfg *SiteConfig, endpoints []EndpointConfig) (string, error) {
 	templateSet := pongo2.NewSet("", &helpers.EmbedLoader{Content: templates})
-	template := pongo2.Must(templateSet.FromFile("resources/main.tf"))
+	template := pongo2.Must(templateSet.FromFile("main.tf"))
 
 	// check if there is an endpoint with a CDN enabled.
 	// TODO: Is this used ?
