@@ -7,10 +7,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func intRef(val int) *int {
-	return &val
-}
-
 func TestSetSiteEndpointsConfig(t *testing.T) {
 	data := map[string]any{
 		"internal": map[string]any{

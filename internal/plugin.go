@@ -294,5 +294,4 @@ func TerraformRenderComponentProviders(cfg *SiteConfig) []string {
 		providers = append(providers, fmt.Sprintf("aws.%s = aws.%s", provider.Name, provider.Name))
 	}
 	return providers
-
 }
