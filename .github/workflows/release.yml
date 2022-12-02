@@ -2,11 +2,8 @@ name: Create release
 
 on:
   push:
-    branches:
-      - 'pipelines/**'
     tags:
       - 'v*'
-
 
 jobs:
   goreleaser:
@@ -31,5 +28,5 @@ jobs:
       - name: Upload release
         uses: actions/upload-artifact@v3
         with:
-          name: mach-composer
+          name: mach-composer-plugin-commercetools
           path: dist/*
