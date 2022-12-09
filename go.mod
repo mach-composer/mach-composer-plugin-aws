@@ -8,11 +8,13 @@ require (
 	github.com/flosch/pongo2/v5 v5.0.0
 	github.com/mach-composer/mach-composer-plugin-sdk v0.0.2
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/sirupsen/logrus v1.9.0
 	github.com/stretchr/testify v1.8.1
 )
 
-require github.com/sergi/go-diff v1.1.0 // indirect
+require (
+	github.com/sergi/go-diff v1.1.0 // indirect
+	github.com/sirupsen/logrus v1.9.0 // indirect
+)
 
 require (
 	github.com/agext/levenshtein v1.2.3 // indirect
@@ -22,7 +24,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
-	github.com/hashicorp/go-hclog v1.4.0 // indirect
+	github.com/hashicorp/go-hclog v1.4.0
 	github.com/hashicorp/go-plugin v1.4.8 // indirect
 	github.com/hashicorp/hcl/v2 v2.15.0 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect

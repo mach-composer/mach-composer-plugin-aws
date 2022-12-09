@@ -5,11 +5,11 @@ import (
 
 	"github.com/creasty/defaults"
 	"github.com/elliotchance/pie/v2"
+	"github.com/hashicorp/go-hclog"
 	"github.com/mach-composer/mach-composer-plugin-helpers/helpers"
 	"github.com/mach-composer/mach-composer-plugin-sdk/plugin"
 	"github.com/mach-composer/mach-composer-plugin-sdk/schema"
 	"github.com/mitchellh/mapstructure"
-	"github.com/sirupsen/logrus"
 )
 
 func NewAWSPlugin() schema.MachComposerPlugin {
@@ -107,7 +107,7 @@ func (p *AWSPlugin) SetSiteEndpointsConfig(site string, data map[string]any) err
 		} else {
 			if mapData, ok := epData.(map[string]any); ok {
 				if val, ok := mapData["aws"].(map[string]any); ok {
-					logrus.Warnln("the aws node on the endpoint will be removed. Set the children directly in the endpoint")
+					hclog.Default().Warn("the aws node on the endpoint will be removed. Set the children directly in the endpoint")
 					for key, value := range val {
 						mapData[key] = value
 					}
