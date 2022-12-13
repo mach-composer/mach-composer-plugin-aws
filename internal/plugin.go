@@ -13,7 +13,7 @@ import (
 )
 
 func NewAWSPlugin() schema.MachComposerPlugin {
-	state := &AWSPlugin{
+	state := &Plugin{
 		provider:         "3.74.1",
 		siteConfigs:      map[string]*SiteConfig{},
 		componentConfigs: map[string]ComponentConfig{},
@@ -45,7 +45,7 @@ func NewAWSPlugin() schema.MachComposerPlugin {
 	})
 }
 
-type AWSPlugin struct {
+type Plugin struct {
 	environment      string
 	provider         string
 	remoteState      *AWSTFState
@@ -54,7 +54,7 @@ type AWSPlugin struct {
 	endpointsConfigs map[string]map[string]EndpointConfig
 }
 
-func (p *AWSPlugin) Configure(environment string, provider string) error {
+func (p *Plugin) Configure(environment string, provider string) error {
 	p.environment = environment
 	if provider != "" {
 		p.provider = provider
@@ -62,20 +62,20 @@ func (p *AWSPlugin) Configure(environment string, provider string) error {
 	return nil
 }
 
-func (p *AWSPlugin) IsEnabled() bool {
+func (p *Plugin) IsEnabled() bool {
 	return len(p.siteConfigs) > 0
 }
 
-func (p *AWSPlugin) Identifier() string {
+func (p *Plugin) Identifier() string {
 	return "aws"
 }
 
-func (p *AWSPlugin) GetValidationSchema() (*schema.ValidationSchema, error) {
+func (p *Plugin) GetValidationSchema() (*schema.ValidationSchema, error) {
 	result := getSchema()
 	return result, nil
 }
 
-func (p *AWSPlugin) SetRemoteStateBackend(data map[string]any) error {
+func (p *Plugin) SetRemoteStateBackend(data map[string]any) error {
 	state := &AWSTFState{}
 	if err := mapstructure.Decode(data, state); err != nil {
 		return err
@@ -87,7 +87,7 @@ func (p *AWSPlugin) SetRemoteStateBackend(data map[string]any) error {
 	return nil
 }
 
-func (p *AWSPlugin) SetSiteConfig(site string, data map[string]any) error {
+func (p *Plugin) SetSiteConfig(site string, data map[string]any) error {
 	if len(data) == 0 {
 		return nil
 	}
@@ -109,7 +109,7 @@ func (p *AWSPlugin) SetSiteConfig(site string, data map[string]any) error {
 	return nil
 }
 
-func (p *AWSPlugin) SetSiteEndpointsConfig(site string, data map[string]any) error {
+func (p *Plugin) SetSiteEndpointsConfig(site string, data map[string]any) error {
 	configs := map[string]EndpointConfig{}
 	for epId, epData := range data {
 		cfg := EndpointConfig{}
@@ -142,7 +142,7 @@ func (p *AWSPlugin) SetSiteEndpointsConfig(site string, data map[string]any) err
 	return nil
 }
 
-func (p *AWSPlugin) SetComponentEndpointsConfig(component string, endpoints map[string]string) error {
+func (p *Plugin) SetComponentEndpointsConfig(component string, endpoints map[string]string) error {
 	cfg, ok := p.componentConfigs[component]
 	if !ok {
 		cfg = ComponentConfig{}
@@ -153,7 +153,7 @@ func (p *AWSPlugin) SetComponentEndpointsConfig(component string, endpoints map[
 	return nil
 }
 
-func (p *AWSPlugin) TerraformRenderStateBackend(site string) (string, error) {
+func (p *Plugin) TerraformRenderStateBackend(site string) (string, error) {
 	if p.remoteState == nil {
 		return "", nil
 	}
@@ -183,7 +183,7 @@ func (p *AWSPlugin) TerraformRenderStateBackend(site string) (string, error) {
 	return helpers.RenderGoTemplate(template, templateContext)
 }
 
-func (p *AWSPlugin) TerraformRenderProviders(site string) (string, error) {
+func (p *Plugin) TerraformRenderProviders(site string) (string, error) {
 	cfg := p.getSiteConfig(site)
 	if cfg == nil {
 		return "", nil
@@ -196,7 +196,7 @@ func (p *AWSPlugin) TerraformRenderProviders(site string) (string, error) {
 	return result, nil
 }
 
-func (p *AWSPlugin) TerraformRenderResources(site string) (string, error) {
+func (p *Plugin) TerraformRenderResources(site string) (string, error) {
 	cfg := p.getSiteConfig(site)
 	if cfg == nil {
 		return "", nil
@@ -237,7 +237,7 @@ func (p *AWSPlugin) TerraformRenderResources(site string) (string, error) {
 	return content, nil
 }
 
-func (p *AWSPlugin) RenderTerraformComponent(site string, component string) (*schema.ComponentSchema, error) {
+func (p *Plugin) RenderTerraformComponent(site string, component string) (*schema.ComponentSchema, error) {
 	cfg := p.getSiteConfig(site)
 	if cfg == nil {
 		return nil, nil
@@ -257,7 +257,7 @@ func (p *AWSPlugin) RenderTerraformComponent(site string, component string) (*sc
 	return result, nil
 }
 
-func (p *AWSPlugin) getSiteConfig(site string) *SiteConfig {
+func (p *Plugin) getSiteConfig(site string) *SiteConfig {
 	cfg, ok := p.siteConfigs[site]
 	if !ok {
 		return nil
