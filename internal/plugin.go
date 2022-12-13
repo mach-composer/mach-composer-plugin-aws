@@ -30,6 +30,9 @@ func NewAWSPlugin() schema.MachComposerPlugin {
 		SetRemoteStateBackend: state.SetRemoteStateBackend,
 		SetSiteConfig:         state.SetSiteConfig,
 
+		// Schema
+		GetValidationSchema: state.GetValidationSchema,
+
 		// Config endpoints
 		SetSiteEndpointsConfig:      state.SetSiteEndpointsConfig,
 		SetComponentEndpointsConfig: state.SetComponentEndpointsConfig,
@@ -65,6 +68,11 @@ func (p *AWSPlugin) IsEnabled() bool {
 
 func (p *AWSPlugin) Identifier() string {
 	return "aws"
+}
+
+func (p *AWSPlugin) GetValidationSchema() (*schema.ValidationSchema, error) {
+	result := getSchema()
+	return result, nil
 }
 
 func (p *AWSPlugin) SetRemoteStateBackend(data map[string]any) error {

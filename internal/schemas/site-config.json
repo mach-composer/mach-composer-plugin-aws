@@ -1,0 +1,55 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "account_id": {
+            "type": "string"
+        },
+        "region": {
+            "type": "string"
+        },
+        "deploy_role_name": {
+            "type": "string"
+        },
+        "default_tags": {
+            "type": "object",
+            "patternProperties": {
+                "^[A-Za-z0-9+-]+$": {
+                    "type": "string"
+                }
+            }
+        },
+        "extra_providers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "name",
+                    "region"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "region": {
+                        "type": "string"
+                    },
+                    "default_tags": {
+                        "type": "object",
+                        "patternProperties": {
+                            "^[A-Za-z0-9+-]+$": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "description": "AWS provider configuration."
+            }
+        }
+    },
+    "required": [
+        "account_id",
+        "region"
+    ]
+}

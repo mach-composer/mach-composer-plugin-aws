@@ -1,0 +1,26 @@
+{
+    "type": "object",
+    "description": "AWS S3 bucket state backend configuration.",
+    "required": [
+        "bucket",
+        "key_prefix",
+        "region"
+    ],
+    "properties": {
+        "bucket": {
+            "type": "string"
+        },
+        "key_prefix": {
+            "type": "string"
+        },
+        "region": {
+            "type": "string"
+        },
+        "role_arn": {
+            "type": "string"
+        },
+        "lock_table": {
+            "type": "string"
+        }
+    }
+}

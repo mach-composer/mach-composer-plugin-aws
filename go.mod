@@ -6,7 +6,7 @@ require (
 	github.com/creasty/defaults v1.6.0
 	github.com/elliotchance/pie/v2 v2.1.0
 	github.com/flosch/pongo2/v5 v5.0.0
-	github.com/mach-composer/mach-composer-plugin-sdk v0.0.2
+	github.com/mach-composer/mach-composer-plugin-sdk v0.0.4-0.20221213094408-0fca855d9785
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/stretchr/testify v1.8.1
 )
