@@ -80,8 +80,11 @@ func (p *AWSPlugin) SetRemoteStateBackend(data map[string]any) error {
 }
 
 func (p *AWSPlugin) SetSiteConfig(site string, data map[string]any) error {
-	cfg := SiteConfig{}
+	if len(data) == 0 {
+		return nil
+	}
 
+	cfg := SiteConfig{}
 	if val, ok := data["account_id"].(int); ok {
 		data["account_id"] = fmt.Sprintf("%d", val)
 	}
