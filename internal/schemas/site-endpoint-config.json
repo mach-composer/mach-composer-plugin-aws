@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "throttling_burst_limit": {
+            "type": "integer"
+        },
+        "throttling_rate_limit": {
+            "type": "integer"
+        },
+        "enable_cdn": {
+            "type": "boolean"
+        }
+    }
+}
