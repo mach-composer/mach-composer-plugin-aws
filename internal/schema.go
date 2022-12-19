@@ -14,7 +14,7 @@ func getSchema() *schema.ValidationSchema {
 	s := schema.ValidationSchema{}
 	loadSchemaNode("schemas/remote-state.json", &s.RemoteStateSchema)
 	loadSchemaNode("schemas/site-config.json", &s.SiteConfigSchema)
-	loadSchemaNode("schemas/site-endpoint-config.json", &s.SiteEndpointsConfig)
+	loadSchemaNode("schemas/site-endpoint-config.json", &s.SiteEndpointConfig)
 
 	return &s
 }

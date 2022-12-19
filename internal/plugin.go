@@ -5,7 +5,6 @@ import (
 
 	"github.com/creasty/defaults"
 	"github.com/elliotchance/pie/v2"
-	"github.com/hashicorp/go-hclog"
 	"github.com/mach-composer/mach-composer-plugin-helpers/helpers"
 	"github.com/mach-composer/mach-composer-plugin-sdk/plugin"
 	"github.com/mach-composer/mach-composer-plugin-sdk/schema"
@@ -15,7 +14,7 @@ import (
 func NewAWSPlugin() schema.MachComposerPlugin {
 	state := &Plugin{
 		provider:         "3.74.1",
-		siteConfigs:      map[string]*SiteConfig{},
+		siteConfigs:      map[string]SiteConfig{},
 		componentConfigs: map[string]ComponentConfig{},
 		endpointsConfigs: map[string]map[string]EndpointConfig{},
 	}
@@ -34,7 +33,7 @@ func NewAWSPlugin() schema.MachComposerPlugin {
 		GetValidationSchema: state.GetValidationSchema,
 
 		// Config endpoints
-		SetSiteEndpointsConfig:      state.SetSiteEndpointsConfig,
+		SetSiteEndpointConfig:       state.SetSiteEndpointConfig,
 		SetComponentEndpointsConfig: state.SetComponentEndpointsConfig,
 
 		// Renders
@@ -49,7 +48,7 @@ type Plugin struct {
 	environment      string
 	provider         string
 	remoteState      *AWSTFState
-	siteConfigs      map[string]*SiteConfig
+	siteConfigs      map[string]SiteConfig
 	componentConfigs map[string]ComponentConfig
 	endpointsConfigs map[string]map[string]EndpointConfig
 }
@@ -105,39 +104,30 @@ func (p *Plugin) SetSiteConfig(site string, data map[string]any) error {
 		return err
 	}
 
-	p.siteConfigs[site] = &cfg
+	p.siteConfigs[site] = cfg
 	return nil
 }
 
-func (p *Plugin) SetSiteEndpointsConfig(site string, data map[string]any) error {
-	configs := map[string]EndpointConfig{}
-	for epId, epData := range data {
-		cfg := EndpointConfig{}
-		if url, ok := epData.(string); ok {
-			cfg.URL = url
-		} else {
-			if mapData, ok := epData.(map[string]any); ok {
-				if val, ok := mapData["aws"].(map[string]any); ok {
-					hclog.Default().Warn("the aws node on the endpoint will be removed. Set the children directly in the endpoint")
-					for key, value := range val {
-						mapData[key] = value
-					}
-				}
-			}
-
-			if err := mapstructure.Decode(epData, &cfg); err != nil {
-				return err
-			}
-		}
-
-		if err := defaults.Set(&cfg); err != nil {
-			return err
-		}
-
-		cfg.Key = epId
-		configs[epId] = cfg
+func (p *Plugin) SetSiteEndpointConfig(site string, name string, data map[string]any) error {
+	configs, ok := p.endpointsConfigs[site]
+	if !ok {
+		configs = map[string]EndpointConfig{}
+		p.endpointsConfigs[site] = configs
 	}
 
+	cfg := EndpointConfig{
+		Key: name,
+	}
+
+	if err := mapstructure.Decode(data, &cfg); err != nil {
+		return err
+	}
+
+	if err := defaults.Set(&cfg); err != nil {
+		return err
+	}
+
+	configs[name] = cfg
 	p.endpointsConfigs[site] = configs
 	return nil
 }
@@ -262,7 +252,7 @@ func (p *Plugin) getSiteConfig(site string) *SiteConfig {
 	if !ok {
 		return nil
 	}
-	return cfg
+	return &cfg
 }
 
 func terraformRenderComponentVars(cfg *SiteConfig, componentCfg *ComponentConfig) (string, error) {

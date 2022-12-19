@@ -2,6 +2,15 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "key": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string"
+        },
+        "zone": {
+            "type": "string"
+        },
         "throttling_burst_limit": {
             "type": "integer"
         },
