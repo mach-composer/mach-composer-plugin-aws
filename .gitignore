@@ -1,2 +1,4 @@
 dist/
 mach-composer-plugin-*
+
+*.out
