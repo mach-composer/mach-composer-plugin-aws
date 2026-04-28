@@ -8,21 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@be3c94b385c4f180051c996d336f57a34c397495 # v3.6.1
         with:
           go-version-file: go.mod
 
       - name: Set up Task
-        uses: arduino/setup-task@v1
+        uses: arduino/setup-task@e26d8975574116b0097a1161e0fe16ba75d84c1c # v1.0.3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get the latest version
         id: latest
-        uses: miniscruff/changie-action@v2
+        uses: miniscruff/changie-action@6dcc2533cac0495148ed4046c438487e4dceaa23 # v2.0.0
         with:
           version: latest
           args: latest
@@ -33,7 +33,7 @@ jobs:
           echo RELEASE_NOTES_PATH=.changes/${{ steps.latest.outputs.output }}.md >> $GITHUB_ENV
 
       - name: Create release
-        uses: goreleaser/goreleaser-action@v3
+        uses: goreleaser/goreleaser-action@b508e2e3ef3b19d4e4146d4f8fb3ba9db644a757 # v3.2.0
         with:
           args: --clean --release-notes=${{ env.RELEASE_NOTES_PATH }} --skip=validate
         env:
@@ -42,7 +42,7 @@ jobs:
           GOPATH: ${{ env.GOPATH }}
 
       - name: Upload release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
         with:
           name: mach-composer-plugin-aws
           path: dist/*

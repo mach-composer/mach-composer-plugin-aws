@@ -13,17 +13,17 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         with:
           fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@7b8cf10d4e4a01d4992d18a89f4d7dc5a3e6d6f4 # v4.3.0
         with:
           go-version-file: go.mod
 
       - name: Set up Task
-        uses: arduino/setup-task@v1
+        uses: arduino/setup-task@e26d8975574116b0097a1161e0fe16ba75d84c1c # v1.0.3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,7 +32,7 @@ jobs:
         uses: mach-composer/check-changie-changes-action@main
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@3a919529898de77ec3da873e3063ca4b10e7f5cc # v3.7.0
         with:
           args: --issues-exit-code=0 --timeout=5m
 
@@ -43,16 +43,16 @@ jobs:
           cp coverage.out output/coverage.out
 
       - name: Upload to codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@ab904c41d6ece82784817410c45d8b8c02684457 # v3.1.6
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1
         with:
           name: output
           path: output/**/*
 
       - name: build binary
-        uses: goreleaser/goreleaser-action@v3
+        uses: goreleaser/goreleaser-action@b508e2e3ef3b19d4e4146d4f8fb3ba9db644a757 # v3.2.0
         with:
           args: build --snapshot --clean --single-target
         env:

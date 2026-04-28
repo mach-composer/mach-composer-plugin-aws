@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
 
@@ -25,12 +25,12 @@ jobs:
         run: git fetch --force --tags
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@7b8cf10d4e4a01d4992d18a89f4d7dc5a3e6d6f4 # v4.3.0
         with:
           go-version-file: go.mod
 
       - name: Set up Task
-        uses: arduino/setup-task@v1
+        uses: arduino/setup-task@e26d8975574116b0097a1161e0fe16ba75d84c1c # v1.0.3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -42,13 +42,13 @@ jobs:
 
       - name: Get the next potential version
         id: next-tag
-        uses: miniscruff/changie-action@v2
+        uses: miniscruff/changie-action@6dcc2533cac0495148ed4046c438487e4dceaa23 # v2.0.0
         with:
           version: latest
           args: next -p beta-${{ env.HASH }} ${{ github.event.inputs.next }}
 
       - name: Output changes
-        uses: miniscruff/changie-action@v2
+        uses: miniscruff/changie-action@6dcc2533cac0495148ed4046c438487e4dceaa23 # v2.0.0
         id: changelog
         with:
           version: latest
@@ -63,7 +63,7 @@ jobs:
         shell: bash
 
       - name: GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
         with:
           args: release --clean --skip=validate --release-notes ${{ steps.save_changes.outputs.changelog_file }}
         env:
@@ -74,7 +74,7 @@ jobs:
           SKIP_UPLOAD: true
 
       - name: Upload release
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
         with:
           name: mach-composer-plugin-aws
           path: dist/*
