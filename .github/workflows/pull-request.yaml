@@ -34,7 +34,7 @@ jobs:
         uses: mach-composer/check-changie-changes-action@7a4054d1842bb867a0a2c459f154f821e7a50cc2 # v0.0.1
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@3a919529898de77ec3da873e3063ca4b10e7f5cc # v3.7.0
+        uses: golangci/golangci-lint-action@7119f3d5ddced62a10a044847a6c6bb0f7a5e76a # v7.0.0
         with:
           args: --issues-exit-code=0 --timeout=5m
 
