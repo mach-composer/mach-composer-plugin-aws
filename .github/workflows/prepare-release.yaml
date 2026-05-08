@@ -4,17 +4,22 @@ on:
   push:
     branches: [ "main" ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   generate-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Prepare release
-        uses: labd/changie-release-action@v0.3.1
+        uses: labd/changie-release-action@851d6ab1849a152c0aabc79d54e5b0bb85b4f669 # v0.3.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-workflow: release.yaml
