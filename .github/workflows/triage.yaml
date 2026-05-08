@@ -8,6 +8,8 @@ on:
     types:
       - opened
 
+permissions: {}
+
 jobs:
   add_to_project:
     name: Push issue or PR to board

@@ -3,6 +3,9 @@ name: Create release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest

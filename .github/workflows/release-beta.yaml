@@ -12,6 +12,9 @@ on:
           - major
           - minor
 
+permissions:
+  contents: write
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
