@@ -12,6 +12,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Prepare release
         uses: labd/changie-release-action@851d6ab1849a152c0aabc79d54e5b0bb85b4f669 # v0.3.1

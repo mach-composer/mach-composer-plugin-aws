@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Fetch tags
         run: git fetch --force --tags
@@ -28,6 +29,7 @@ jobs:
         uses: actions/setup-go@7b8cf10d4e4a01d4992d18a89f4d7dc5a3e6d6f4 # v4.3.0
         with:
           go-version-file: go.mod
+          cache: false
 
       - name: Set up Task
         uses: arduino/setup-task@e26d8975574116b0097a1161e0fe16ba75d84c1c # v1.0.3
@@ -58,9 +60,11 @@ jobs:
         id: save_changes
         run: |
           tmpfile=$(mktemp)
-          echo "${{ steps.changelog.outputs.output }}" > $tmpfile
+          echo "${STEPS_CHANGELOG_OUTPUTS_OUTPUT}" > $tmpfile
           echo  "changelog_file=$tmpfile"  >> $GITHUB_OUTPUT
         shell: bash
+        env:
+          STEPS_CHANGELOG_OUTPUTS_OUTPUT: ${{ steps.changelog.outputs.output }}
 
       - name: GoReleaser
         uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
